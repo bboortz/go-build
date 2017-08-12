@@ -1,0 +1,8 @@
+AppName = "go-build"
+AppVersion = "1"
+PkgName = "github.com/bboortz/go-build"
+#LogLevel = "DEBUG"
+
+[Test]
+IgnorePackages = [ "/vendor", "/build" ]
+

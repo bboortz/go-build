@@ -1,0 +1,12 @@
+package: github.com/bboortz/go-build
+import:
+- package: github.com/urfave/cli
+  version: ^1.19.1
+- package: github.com/bboortz/go-utils
+  subpackages:
+  - logger
+  - stack
+- package: github.com/BurntSushi/toml
+  version: ^0.3.0
+- package: github.com/op/go-logging
+  version: ^1.0.0
