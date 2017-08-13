@@ -13,36 +13,36 @@ func init() {
 }
 
 func TestGenSeed(t *testing.T) {
-	assert := assert.New(t)
+	a := assert.New(t)
 
-	var result int64 = GenSeed()
-	assert.NotNil(result)
+	result := GenSeed()
+	a.NotNil(result)
 }
 
 func TestRandomString(t *testing.T) {
-	assert := assert.New(t)
+	a := assert.New(t)
 
-	var result string = RandomString(10)
-	assert.NotNil(result)
-	assert.Equal(10, len(result))
+	result := RandomString(10)
+	a.NotNil(result)
+	a.Equal(10, len(result))
 }
 
 func TestRandomInt(t *testing.T) {
-	assert := assert.New(t)
+	a := assert.New(t)
 
-	var result int = RandomInt(10, 100)
-	assert.NotNil(result)
-	assert.Equal(true, result >= 10)
-	assert.Equal(true, result <= 100)
+	result := RandomInt(10, 100)
+	a.NotNil(result)
+	a.Equal(true, result >= 10)
+	a.Equal(true, result <= 100)
 }
 
 func TestRandomIntWithSeed1(t *testing.T) {
-	assert := assert.New(t)
+	a := assert.New(t)
 	rand.Seed(int64(1))
 
-	var result int = RandomInt(10, 100)
-	assert.NotNil(result)
-	assert.Equal(true, result >= 10)
-	assert.Equal(true, result <= 100)
-	assert.Equal(51, result)
+	result := RandomInt(10, 100)
+	a.NotNil(result)
+	a.Equal(true, result >= 10)
+	a.Equal(true, result <= 100)
+	a.Equal(51, result)
 }

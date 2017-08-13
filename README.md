@@ -39,6 +39,7 @@ go-build is using docker to build and test your application. Therefore we are av
 
 These tools must be installed first
 
+* golang
 * docker
 
 

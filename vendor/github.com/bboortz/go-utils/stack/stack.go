@@ -7,18 +7,12 @@ import (
 	"strings"
 )
 
-/*
- * prints the stack to stderr
- */
+// PrintStack prints the current call stack
 func PrintStack() {
-	os.Stderr.Write(GetStack())
+	_, _ = os.Stderr.Write(GetStack())
 }
 
-/*
- * return a stack trace
- * Stack returns a formatted stack trace of the goroutine that calls it.
- * It calls runtime.Stack with a large enough buffer to capture the entire trace.
- */
+// GetStack retrieves a formatted call stack
 func GetStack() []byte {
 	buf := make([]byte, 1024)
 	for {
@@ -30,6 +24,7 @@ func GetStack() []byte {
 	}
 }
 
+// Trace retrieves the current point of the call stack
 func Trace() {
 	pc := make([]uintptr, 10) // at least 1 entry needed
 	runtime.Callers(2, pc)
@@ -38,6 +33,7 @@ func Trace() {
 	fmt.Printf("%s:%d %s\n", file, line, f.Name())
 }
 
+// GetCurrentMethodName retrieves the current method name
 func GetCurrentMethodName() string {
 	pc := make([]uintptr, 10) // at least 1 entry needed
 	runtime.Callers(2, pc)
@@ -46,6 +42,7 @@ func GetCurrentMethodName() string {
 	return arr[len(arr)-1]
 }
 
+// GetCallingMethodName retrieves the calling method name
 func GetCallingMethodName() string {
 	pc := make([]uintptr, 10) // at least 1 entry needed
 	runtime.Callers(3, pc)

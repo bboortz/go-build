@@ -1,12 +1,16 @@
-#!/bin/bash
+#!/bin/sh
 
-set -e
-set -u
+set -o errexit
+set -o nounset
+set -o pipefail
 
-. ./build.settings
+GOBUILD=$( which go-build 2> /dev/null )
+if [ -z "$GOBUILD" ]; then
+	echo "please install github.com/bboortz/go-build first"
+	exit 1
+fi
 
-mkdir -p testdata
-gofmt -w .
-docker build -t ${program_name}-build .
 
-# docker run -it -v $PWD/out:/out scm-build
+${GOBUILD} build application
+${GOBUILD} test
+go install

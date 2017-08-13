@@ -2,41 +2,38 @@ package logger
 
 import (
 	"fmt"
-	"github.com/bboortz/go-utils/slices"
+	"github.com/bboortz/go-utils/sliceutil"
 	"github.com/bboortz/go-utils/stack"
 	"log"
 	"os"
 	"time"
 )
 
-/*
- * Log levels
- */
+// Level is the type for log levels
 type Level int
 
 const (
+	// CRITICAL is the log level for critical situations
 	CRITICAL Level = iota
+	// ERROR is the log level for errors
 	ERROR
-	WARNING
-	NOTICE
+	// INFO is the log level for information
 	INFO
+	// DEBUG is the log level for debug messages
 	DEBUG
+	// TRACE is the log level for traces
 	TRACE
 )
 
 var levelNames = []string{
 	"CRITICAL",
 	"ERROR",
-	"WARNING",
-	"NOTICE",
 	"INFO",
 	"DEBUG",
 	"TRACE",
 }
 
-/*
- * Interface Definition
- */
+// Logger is the main interface for this logger
 type Logger interface {
 	SetLevel(Level)
 	SetLevelWithStr(string)
@@ -45,15 +42,14 @@ type Logger interface {
 	Fatal(args ...interface{})
 	Critical(args ...interface{})
 	Error(args ...interface{})
-	Warning(args ...interface{})
-	Notice(args ...interface{})
 	Info(args ...interface{})
 	Debug(args ...interface{})
 	Trace(args ...interface{})
 }
 
-type LoggerBuilder interface {
-	SetLevel(Level) LoggerBuilder
+// Builder is the interface to build a new logger
+type Builder interface {
+	SetLevel(Level) Builder
 	Build() Logger
 }
 
@@ -61,20 +57,18 @@ type loggerBuilder struct {
 	level Level
 }
 
-/*
- * Builder Methods
- */
-func NewLogger() LoggerBuilder {
+// NewLogger is the create function for the Builder
+func NewLogger() Builder {
 	return &loggerBuilder{level: INFO}
 }
 
-func (b *loggerBuilder) SetLevel(level Level) LoggerBuilder {
+func (b *loggerBuilder) SetLevel(level Level) Builder {
 	b.level = level
 	return b
 }
 
-func (b *loggerBuilder) SetLevelWithStr(levelStr string) LoggerBuilder {
-	level := Level(slices.IndexOf(levelStr, levelNames))
+func (b *loggerBuilder) SetLevelWithStr(levelStr string) Builder {
+	level := Level(sliceutil.IndexOf(levelStr, levelNames))
 	b.SetLevel(level)
 	return b
 }
@@ -100,7 +94,7 @@ func (l *logger) SetLevel(level Level) {
 }
 
 func (l *logger) SetLevelWithStr(levelStr string) {
-	level := Level(slices.IndexOf(levelStr, levelNames))
+	level := Level(sliceutil.IndexOf(levelStr, levelNames))
 	l.SetLevel(level)
 }
 
@@ -139,22 +133,6 @@ func (l *logger) Error(args ...interface{}) {
 	}
 	callerStr := stack.GetCallingMethodName()
 	l.Log(ERROR, callerStr, args)
-}
-
-func (l *logger) Warning(args ...interface{}) {
-	if l.level < WARNING {
-		return
-	}
-	callerStr := stack.GetCallingMethodName()
-	l.Log(WARNING, callerStr, args)
-}
-
-func (l *logger) Notice(args ...interface{}) {
-	if l.level < NOTICE {
-		return
-	}
-	callerStr := stack.GetCallingMethodName()
-	l.Log(NOTICE, callerStr, args)
 }
 
 func (l *logger) Info(args ...interface{}) {

@@ -6,5 +6,7 @@ import:
   subpackages:
   - logger
   - stack
+  - strings
+  - stringutil
 - package: github.com/BurntSushi/toml
   version: ^0.3.0

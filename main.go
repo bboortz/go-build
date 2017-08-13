@@ -9,6 +9,7 @@ import (
 	"github.com/BurntSushi/toml"
 	"github.com/bboortz/go-utils"
 	"github.com/bboortz/go-utils/logger"
+	"github.com/bboortz/go-utils/stringutil"
 	"github.com/urfave/cli"
 )
 
@@ -33,21 +34,15 @@ func init() {
 	log = logger.NewLogger().Build()
 }
 
-func checkEmpty(key string, value string) {
-	if value == "" {
-		log.Fatal("variable with key <" + key + "> is empty.")
-	}
-}
-
 func loadConfig() programConfig {
 	log.Debug("Loading configfile: ", defaultConfigFile)
 	var config programConfig
 	if _, err := toml.DecodeFile(defaultConfigFile, &config); err != nil {
 		log.Fatal("Cannot load config file:", defaultConfigFile)
 	}
-	checkEmpty("AppName", config.AppName)
-	checkEmpty("AppVersion", config.AppVersion)
-	checkEmpty("PkgName", config.PkgName)
+	stringutil.CheckEmpty("AppName", config.AppName)
+	stringutil.CheckEmpty("AppVersion", config.AppVersion)
+	stringutil.CheckEmpty("PkgName", config.PkgName)
 
 	log.Debug("Successully loaded.")
 	return config
@@ -130,7 +125,7 @@ func main() {
 			Aliases: []string{"c"},
 			Usage:   "create a new application",
 			Action: func(c *cli.Context) error {
-				fmt.Println("added task: ", c.Args().First())
+				log.Fatal("Not implemented yet")
 				return nil
 			},
 		},
@@ -157,6 +152,7 @@ func main() {
 					Aliases: []string{"c"},
 					Usage:   "build a container which contains the application",
 					Action: func(c *cli.Context) error {
+						log.Fatal("Not implemented yet")
 						cmdBuildContainer(config.AppName, config.PkgName)
 						return nil
 					},

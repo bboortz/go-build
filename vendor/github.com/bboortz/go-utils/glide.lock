@@ -1,6 +1,12 @@
-hash: fd9caedba1d8a5c3778ccb91d2bf856bec5170f69497534e741e1b46b4c9a0fa
-updated: 2017-08-10T17:58:55.297247922+02:00
+hash: 40c2f9a01a9cfa74599a12d92ce8a38e7831ac94f1913faf7c46b8968e5c202a
+updated: 2017-08-12T18:41:32.837344715+02:00
 imports:
+- name: github.com/bboortz/go-utils
+  version: 419d3ee9697518d37998ab12aef5a81a11040cdb
+  subpackages:
+  - logger
+  - slices
+  - stack
 - name: github.com/op/go-logging
   version: b2cb9fa56473e98db8caba80237377e83fe44db5
 testImports:

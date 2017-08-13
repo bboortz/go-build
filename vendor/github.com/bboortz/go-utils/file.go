@@ -5,15 +5,18 @@ import (
 	"os"
 )
 
-/*
- * reads a whole file into memory and returns a slice of its lines.
- */
+// ReadLines reads a whole file into memory and returns a slice of its lines.
 func ReadLines(path string) ([]string, error) {
 	file, err := os.Open(path)
 	if err != nil {
 		return nil, err
 	}
-	defer file.Close()
+	defer func() {
+		if err != nil {
+			err = file.Close()
+		}
+
+	}()
 
 	var lines []string
 	scanner := bufio.NewScanner(file)
