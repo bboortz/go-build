@@ -1,13 +1,7 @@
 #!/bin/sh
 
-set -o errexit
-set -o nounset
-set -o pipefail
+source /build/lib.sh
 
-error() {
-    error "$1" >&2
-    exit 1
-}
 
 if [ -z "${APP}" ]; then
     error "Variable APP is not set" 
@@ -16,10 +10,9 @@ if [ -z "${ARCH}" ]; then
     error "Variable ARCH is not set" 
 fi
 
-export CGO_ENABLED=0 
-export GOARCH="${ARCH}" 
 
-glide --home ./.glide install > /tmp/glide.out 2>&1 || cat /tmp/glide.out >&2
+/build/get_dependencies.sh
 go fmt ./...
 #go build -race -o $APP .
-go build -o $APP .
+#go build -o $APP .
+go build --ldflags "-linkmode external -extldflags -static" -o $APP .

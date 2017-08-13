@@ -9,19 +9,29 @@ error() {
     exit 1
 }
 
-export CGO_ENABLED=0 
+
+#export CGO_ENABLED=0 
+export GOOS=linux
+export GOARCH="${ARCH}"
+
+
+if [ -z "${ARCH}" ]; then
+    error "Variable ARCH is not set"
+fi
+if [ ! ${IGNORE_PACKAGES+x} ]; then
+    error "Variable IGNORE_PACKAGES is not set"
+fi
+
+
 PACKAGES=""
 if [ -n "$IGNORE_PACKAGES" ]; then
 	PACKAGES=$(go list ./... | grep -v $IGNORE_PACKAGES)
 else
 	PACKAGES=$(go list ./... )
 fi
-#echo "PACKAGES to test: $PACKAGES" >&2
 
-glide --home ./.glide install > /tmp/glide.out 2>&1 || cat /tmp/glide.out >&2
 go fmt ./... >&2 || error "go fmt failed."
-#go test -v -race ./... >&2 || error "go test failed."
-#go test -v -coverprofile=cover.out ./... >&2 || error "go test failed."
+#go test -v -race -coverprofile=cover.out ./... >&2 || error "go test failed."
 go test -v ./... >&2 || error "go test failed."
 if [ -f cover.out ]; then
 	go tool cover -func=cover.out
