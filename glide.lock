@@ -2,7 +2,7 @@ hash: 1591b4c33145716807244aa953685b800098f207582ca9061c5852624a73154c
 updated: 2017-08-13T10:51:43.658386435+02:00
 imports:
 - name: github.com/bboortz/go-utils
-  version: 982ffa6be50d2027fa59e755708d2d825b8aa436
+  version: 4d60f24c94df9b252bb6547999f41af2a3145fb3
   subpackages:
   - logger
   - sliceutil

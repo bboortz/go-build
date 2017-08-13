@@ -10,11 +10,13 @@ import (
 	"github.com/bboortz/go-utils"
 	"github.com/bboortz/go-utils/logger"
 	"github.com/bboortz/go-utils/stringutil"
+	utiluser "github.com/bboortz/go-utils/user"
 	"github.com/urfave/cli"
 )
 
 var defaultConfigFile string
 var log logger.Logger
+var user utiluser.User
 
 type testConfig struct {
 	IgnorePackages []string
@@ -32,6 +34,7 @@ type programConfig struct {
 func init() {
 	defaultConfigFile = "build.toml"
 	log = logger.NewLogger().Build()
+	user, _ = utiluser.GetCurrentUser()
 }
 
 func loadConfig() programConfig {
@@ -82,7 +85,7 @@ func cmdBuildApplication(appName string, pkgName string, arch string) {
 	log.Info("CMD: Building Application: " + appName)
 	currentDir, _ := os.Getwd()
 	const cmdStr string = "docker run -u %s:%s -v %s:%s -w %s -e APP=%s -e ARCH=%s go-build-base /build/build.sh"
-	cmd := fmt.Sprintf(cmdStr, "1000", "1000", currentDir, "/go/src/"+pkgName, "/go/src/"+pkgName, appName, arch)
+	cmd := fmt.Sprintf(cmdStr, user.UID, user.Gid, currentDir, "/go/src/"+pkgName, "/go/src/"+pkgName, appName, arch)
 	log.Debug(" -> build command: " + cmd)
 
 	_, _, _ = utils.ExecCommand(cmd)
@@ -93,8 +96,8 @@ func cmdTestApplication(appName string, pkgName string, arch string, ignorePacka
 	log.Info("CMD: Testing Application: " + appName)
 	currentDir, _ := os.Getwd()
 	ignorePackagesStr := strings.Join(ignorePackages, "|")
-	const cmdStr string = "docker run -u %s:%s -v %s:%s -w %s -e APP=%s -e ARCH=%s -e 'IGNORE_PACKAGES=%s' go-build-base /build/test.sh"
-	cmd := fmt.Sprintf(cmdStr, "1000", "1000", currentDir, "/go/src/"+pkgName, "/go/src/"+pkgName, appName, arch, ignorePackagesStr)
+	const cmdStr string = "docker run -u %s:%s -v %s:%s -w %s -e ARCH=%s -e IGNORE_PACKAGES='%s' go-build-base /build/test.sh"
+	cmd := fmt.Sprintf(cmdStr, "500", "500", currentDir, "/go/src/"+pkgName, "/go/src/"+pkgName, arch, ignorePackagesStr)
 	log.Debug(" -> build command: " + cmd)
 
 	_, _, _ = utils.ExecCommand(cmd)

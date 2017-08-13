@@ -42,3 +42,12 @@ func TestCheckEmptyBad(t *testing.T) {
 	a.NotNil(err)
 	a.Equal(1, exitCode)
 }
+
+func TestConvertStringArrayToIntArrayGood(t *testing.T) {
+	a := assert.New(t)
+	input := []string{"1", "2", "3", "4"}
+	expect := []int{1, 2, 3, 4}
+	result, err := ConvertStringArrayToIntArray(input)
+	a.Nil(err)
+	a.Equal(expect, result)
+}
