@@ -21,4 +21,5 @@ export GOARCH="${ARCH}"
 
 glide --home ./.glide install > /tmp/glide.out 2>&1 || cat /tmp/glide.out >&2
 go fmt ./...
+#go build -race -o $APP .
 go build -o $APP .

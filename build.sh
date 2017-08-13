@@ -30,4 +30,5 @@ ${GOBUILD} build build-container
 ${GOBUILD} build application
 ${GOBUILD} test
 # ${GOBUILD} build container
+#go install -race
 go install
