@@ -7,7 +7,7 @@ import (
 	"strings"
 
 	"github.com/BurntSushi/toml"
-	"github.com/bboortz/go-utils"
+	"github.com/bboortz/go-utils/command"
 	"github.com/bboortz/go-utils/logger"
 	"github.com/bboortz/go-utils/stringutil"
 	utiluser "github.com/bboortz/go-utils/user"
@@ -54,10 +54,11 @@ func loadConfig() programConfig {
 func buildContainer(imageName, dockerfile string) {
 	log.Debug("Building Container: " + imageName)
 	log.Debug(" -> using dockerfile: " + dockerfile)
-	cmd := fmt.Sprintf("docker build -t %s -f %s .", imageName, dockerfile)
-	log.Debug(" -> build command: " + cmd)
+	cmdStr := fmt.Sprintf("docker build -t %s -f %s .", imageName, dockerfile)
+	log.Debug(" -> build command: " + cmdStr)
 
-	_, _, _ = utils.ExecCommand(cmd)
+	cmd := command.NewCommand(cmdStr).SuppressStdout().EnableCheckError().Build()
+	_, _ = cmd.RunWithLiveOutput()
 	log.Debug("successully built.")
 }
 
@@ -84,11 +85,11 @@ func cmdBuildBuildContainer(appName string, pkgName string) {
 func cmdBuildApplication(appName string, pkgName string, arch string) {
 	log.Info("CMD: Building Application: " + appName)
 	currentDir, _ := os.Getwd()
-	const cmdStr string = "docker run -u %s:%s -v %s:%s -w %s -e APP=%s -e ARCH=%s go-build-base /build/build.sh"
-	cmd := fmt.Sprintf(cmdStr, user.UID, user.Gid, currentDir, "/go/src/"+pkgName, "/go/src/"+pkgName, appName, arch)
-	log.Debug(" -> build command: " + cmd)
+	cmdStr := fmt.Sprintf("docker run -u %s:%s -v %s:%s -w %s -e APP=%s -e ARCH=%s go-build-base /build/build.sh", user.UID, user.Gid, currentDir, "/go/src/"+pkgName, "/go/src/"+pkgName, appName, arch)
+	log.Debug(" -> build command: " + cmdStr)
 
-	_, _, _ = utils.ExecCommand(cmd)
+	cmd := command.NewCommand(cmdStr).SuppressStdout().EnableCheckError().Build()
+	_, _ = cmd.RunWithLiveOutput()
 	log.Info("CMD successully executed.")
 }
 
@@ -96,11 +97,11 @@ func cmdTestApplication(appName string, pkgName string, arch string, ignorePacka
 	log.Info("CMD: Testing Application: " + appName)
 	currentDir, _ := os.Getwd()
 	ignorePackagesStr := strings.Join(ignorePackages, "|")
-	const cmdStr string = "docker run -u %s:%s -v %s:%s -w %s -e ARCH=%s -e IGNORE_PACKAGES='%s' go-build-base /build/test.sh"
-	cmd := fmt.Sprintf(cmdStr, "500", "500", currentDir, "/go/src/"+pkgName, "/go/src/"+pkgName, arch, ignorePackagesStr)
-	log.Debug(" -> build command: " + cmd)
+	cmdStr := fmt.Sprintf("docker run -u %s:%s -v %s:%s -w %s -e ARCH=%s -e IGNORE_PACKAGES='%s' go-build-base /build/test.sh", "500", "500", currentDir, "/go/src/"+pkgName, "/go/src/"+pkgName, arch, ignorePackagesStr)
+	log.Debug(" -> build command: " + cmdStr)
 
-	_, _, _ = utils.ExecCommand(cmd)
+	cmd := command.NewCommand(cmdStr).SuppressStdout().EnableCheckError().Build()
+	_, _ = cmd.RunWithLiveOutput()
 	log.Info("CMD successully executed.")
 }
 
