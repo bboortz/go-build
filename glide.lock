@@ -1,14 +1,16 @@
-hash: 1591b4c33145716807244aa953685b800098f207582ca9061c5852624a73154c
-updated: 2017-08-13T10:51:43.658386435+02:00
+hash: fa0383cdf13d24729930809d8cfafc7cbc43495fcf5d41385bbf1c9033c033db
+updated: 2017-08-20T10:05:32.009746274+02:00
 imports:
 - name: github.com/bboortz/go-utils
-  version: 0df4dae4ed0aad74ddf0ff3f2c838cb832b2ac0d
+  version: d31837f201aadf32fdc7efaeba26e9033da0e539
   subpackages:
+  - command
   - logger
   - sliceutil
   - stack
   - strings
   - stringutil
+  - user
 - name: github.com/BurntSushi/toml
   version: b26d9c308763d68093482582cea63d69be07a0f0
 - name: github.com/urfave/cli

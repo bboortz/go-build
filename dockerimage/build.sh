@@ -11,8 +11,11 @@ if [ -z "${ARCH}" ]; then
 fi
 
 
+echo "Install dependencies ..."
 /build/get_dependencies.sh
+echo "Format sources ..."
 go fmt ./...
+echo "Compile sources ..."
 #go build -race -o $APP .
 #go build -o $APP .
 go build --ldflags "-linkmode external -extldflags -static" -o $APP .

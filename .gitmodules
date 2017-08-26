@@ -1,0 +1,3 @@
+[submodule "testdata/github.com/mholt/caddy"]
+	path = testdata/github.com/mholt/caddy
+	url = https://github.com/mholt/caddy.git

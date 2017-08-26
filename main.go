@@ -64,7 +64,7 @@ func buildContainer(imageName, dockerfile string) {
 
 func cmdBuildContainer(appName string, pkgName string) {
 	log.Info("CMD: Building Container: " + appName)
-	buildContainer(appName+"-build", "dockerfiles/Dockerfile.build")
+	buildContainer(appName, "Dockerfile")
 	log.Info("CMD successully executed.")
 }
 
@@ -156,7 +156,6 @@ func main() {
 					Aliases: []string{"c"},
 					Usage:   "build a container which contains the application",
 					Action: func(c *cli.Context) error {
-						log.Fatal("Not implemented yet")
 						cmdBuildContainer(config.AppName, config.PkgName)
 						return nil
 					},

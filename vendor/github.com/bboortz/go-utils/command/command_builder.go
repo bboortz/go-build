@@ -1,6 +1,7 @@
 package command
 
 import (
+	"github.com/bboortz/go-utils/logger"
 	"os/exec"
 )
 
@@ -25,12 +26,16 @@ func NewCommand(commandParam string) Builder {
 }
 
 func (b *builder) SuppressStdout() Builder {
-	b.stdoutOn = false
+	if log.GetLevel() != logger.TRACE {
+		b.stdoutOn = false
+	}
 	return b
 }
 
 func (b *builder) SuppressStderr() Builder {
-	b.stderrOn = false
+	if log.GetLevel() != logger.TRACE {
+		b.stderrOn = false
+	}
 	return b
 }
 
