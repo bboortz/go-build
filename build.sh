@@ -28,7 +28,9 @@ fi
 
 ${GOBUILD} build build-container
 ${GOBUILD} build application
-${GOBUILD} test
+GOBUILD=./go-build
+${GOBUILD} test application
 ${GOBUILD} build container
+#${GOBUILD} test container
 #go install -race
 go install
