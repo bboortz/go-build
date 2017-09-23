@@ -3,6 +3,7 @@ import:
 - package: github.com/urfave/cli
   version: ^1.19.1
 - package: github.com/bboortz/go-utils
+  version: 3
   subpackages:
   - logger
   - stack
@@ -10,3 +11,9 @@ import:
   - stringutil
 - package: github.com/BurntSushi/toml
   version: ^0.3.0
+- package: github.com/davecgh/go-spew.git
+  version: ^1.1.0
+- package: github.com/davecgh/go-spew
+  version: ^1.1.0
+  subpackages:
+  - spew

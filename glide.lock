@@ -1,10 +1,11 @@
-hash: fa0383cdf13d24729930809d8cfafc7cbc43495fcf5d41385bbf1c9033c033db
-updated: 2017-08-20T10:05:32.009746274+02:00
+hash: 185e461a8eca5f6e78c6a5b3cc52046147c9906c14ffb0d064170c35481c928a
+updated: 2017-08-26T22:18:57.059327235+02:00
 imports:
 - name: github.com/bboortz/go-utils
-  version: d31837f201aadf32fdc7efaeba26e9033da0e539
+  version: 76dcca303bb6d3c35521fee13045e643d761fefd
   subpackages:
   - command
+  - file
   - logger
   - sliceutil
   - stack
@@ -13,6 +14,12 @@ imports:
   - user
 - name: github.com/BurntSushi/toml
   version: b26d9c308763d68093482582cea63d69be07a0f0
+- name: github.com/davecgh/go-spew
+  version: 346938d642f2ec3594ed81d874461961cd0faa76
+  subpackages:
+  - spew
+- name: github.com/davecgh/go-spew.git
+  version: 346938d642f2ec3594ed81d874461961cd0faa76
 - name: github.com/urfave/cli
   version: cfb38830724cc34fedffe9a2a29fb54fa9169cd1
 testImports: []
